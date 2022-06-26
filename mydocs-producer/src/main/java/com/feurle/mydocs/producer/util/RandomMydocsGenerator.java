@@ -4,6 +4,7 @@ import com.feurle.mydocs.producer.domain.MyDocument;
 import com.feurle.mydocs.producer.domain.enumeration.DocType;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -12,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RandomMydocsGenerator {
 
     public static MyDocument generateRandomObject() {
-        MyDocument myDocument = MyDocument.builder()
+        return MyDocument.builder()
                 .customerReference(getRandomNumberAsString())
                 .gwReference(getRandomNumberAsString())
                 .orderId(getRandomNumberAsString())
@@ -23,11 +24,9 @@ public class RandomMydocsGenerator {
                 .docFormat(getRandomNumberAsString())
                 .docId(getRandomNumberAsString())
                 .docDateTime(getRandomDate())
-                .url(getRandomString())
+                .url(getRandomUrl())
                 .customerNr(getRandomNumberAsString())
                 .build();
-        return myDocument;
-
     }
 
     private static DocType getRandomDocType() {
@@ -45,12 +44,27 @@ public class RandomMydocsGenerator {
     private static String getRandomString() {
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
-        return new String(array, Charset.forName("UTF-8"));
+        return new String(array, StandardCharsets.UTF_8);
     }
+
+    private static String getRandomUrl() {
+        final String alphaNumericString = "0123456789abcdefghijklmnopqrstuvxyz";
+        StringBuilder sb = new StringBuilder(10);
+        sb.append("http://");
+        for (int i = 0; i < 10; i++) {
+            int index = (int) (alphaNumericString.length() * Math.random());
+            sb.append(alphaNumericString.charAt(index));
+        }
+        sb.append(".com");
+        return sb.toString();
+    }
+
 
     private static String getRandomNumberAsString() {
         Random random = new Random();
-        return Long.toString(random.longs(10000000,99999999).findFirst().getAsLong());
+        return Long.toString(random.longs(10000000,99999999)
+                .findFirst()
+                .getAsLong());
     }
 
     private static Integer getRandomYear() {
