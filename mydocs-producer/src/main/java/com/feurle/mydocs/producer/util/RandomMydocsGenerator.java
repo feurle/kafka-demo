@@ -36,8 +36,8 @@ public class RandomMydocsGenerator {
     }
 
     private static String getRandomDate() {
-        final String DATE_FORMAT = "MMM d, yyyy HH:mm a";
-        DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        final String dateFormat = "MMM d, yyyy HH:mm a";
+        final DateFormat formatter = new SimpleDateFormat(dateFormat);
         return formatter.format(new Date(ThreadLocalRandom.current().nextInt() * 1000L));
     }
 
