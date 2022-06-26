@@ -38,3 +38,10 @@ services:
         hard: 65536
     cap_add:
       - IPC_LOCK
+      
+  logstash:
+  	image: docker.elastic.co/logstash/logstash:7.16.2
+  	
+  kibana:
+  	image: docker.elastic.co/kibana/kibana:7.16.2
+  	
